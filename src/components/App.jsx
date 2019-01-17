@@ -1,6 +1,8 @@
 import VideoList from './VideoList.js';
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoPlayer from './VideoPlayer.js';
+import searchYouTube from '../lib/searchYouTube.js';
+import Search from './Search.js';
 
 class App extends React.Component {
   
@@ -8,8 +10,8 @@ class App extends React.Component {
     super(props);
     
     this.state = {
-      currentVideo: exampleVideoData[0],
-      videoList: exampleVideoData
+      videoList: exampleVideoData,
+      currentVideo: exampleVideoData[0]
     };
   }
   
@@ -31,7 +33,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <div><h5><em>search</em></h5></div>
           </div>
         </nav>
         <div className="row">
@@ -40,7 +42,7 @@ class App extends React.Component {
             /></h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em>videoList</em><VideoList videos={exampleVideoData}
+            <div><h5><em>videoList</em><VideoList videos={this.state.videoList}
               onClick={this.onVideoTitleClick.bind(this)}/></h5></div>
           </div>
         </div>
