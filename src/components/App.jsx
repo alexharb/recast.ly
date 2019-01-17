@@ -9,15 +9,22 @@ class App extends React.Component {
     
     this.state = {
       currentVideo: exampleVideoData[0],
-      videoList: []
+      videoList: exampleVideoData
     };
   }
   
-  onVideoTitleClick() {
+  onVideoTitleClick(event) {
+    for (var video of this.state.videoList) {
+      if (video.snippet.title === event.target.innerText) {
+        var clickedVideo = video;
+      }
+    }
+    
     this.setState({
-      currentVideo: ''
+      currentVideo: clickedVideo
     });
   }
+  
   
   render() {
     return (
@@ -29,8 +36,8 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <div><h5><em>videoPlayer</em><VideoPlayer video={exampleVideoData[0]}
-              currentVideo={this.state.currentVideo}/></h5></div>
+            <div><h5><em>videoPlayer</em><VideoPlayer video={this.state.currentVideo}
+            /></h5></div>
           </div>
           <div className="col-md-5">
             <div><h5><em>videoList</em><VideoList videos={exampleVideoData}
