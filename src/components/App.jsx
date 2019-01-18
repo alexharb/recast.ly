@@ -11,11 +11,21 @@ class App extends React.Component {
     super(props);
     
     this.state = {
-      videoList: exampleVideoData,
-      currentVideo: exampleVideoData[0],
+      videoList: [],
+      currentVideo: {},
       searchBar: ''
     };
+    
   }
+  
+  componentDidMount() {
+      this.props.searchYouTube({}, data => {
+        this.setState({
+          videoList: data,
+          currentVideo: data[0]
+        })
+      })
+    }
   
   onVideoTitleClick(event) {
     for (var video of this.state.videoList) {
@@ -33,10 +43,10 @@ class App extends React.Component {
     this.setState({
       searchBar: event.target.value
     })
+    setTimeout(this.searchWeb.bind(this), 1)
   }
   
   searchWeb(event) {
-    console.log(this.state.searchBar);
     searchYouTube({query: this.state.searchBar}, data => {
       this.setState({
         videoList: data
@@ -44,27 +54,29 @@ class App extends React.Component {
     })
   }
   
+  
+  
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search?</em><Search 
+            <Search 
               onChange={this.updateSearchTerm.bind(this)}
               value={this.state.searchBar}
-              onClick={this.searchWeb.bind(this)}/></h5></div>
+              onClick={this.searchWeb.bind(this)}
+              videoList={this.state.videoList}
+              currentVideo={this.state.currentVideo}
+              setState={this.setState}/>
           </div>
         </nav>
         <div className="row">
-          <div className="col-md-7">
-            <div><h5><em>videoPlayer</em><VideoPlayer
+          <div className="col-md-7"><VideoPlayer
               video={this.state.currentVideo}/>
-            </h5></div>
           </div>
-          <div className="col-md-5">
-            <div><h5><em>videoList</em><VideoList 
+          <div className="col-md-5"><VideoList 
               videos={this.state.videoList}
-              onClick={this.onVideoTitleClick.bind(this)}/></h5></div>
+              onClick={this.onVideoTitleClick.bind(this)}/>
           </div>
         </div>
       </div>
